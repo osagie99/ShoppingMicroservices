@@ -1,4 +1,4 @@
-package com.surge.OrderService.Enums;
+package com.surge.PaymentService.enums;
 
 public enum PaymentMode {
     DEBIT_CARD,

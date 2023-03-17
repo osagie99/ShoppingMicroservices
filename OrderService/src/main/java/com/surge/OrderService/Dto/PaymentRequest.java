@@ -1,6 +1,6 @@
-package com.surge.PaymentService.dto;
+package com.surge.OrderService.Dto;
 
-import com.surge.PaymentService.enums.PaymentMode;
+import com.surge.OrderService.Enums.PaymentMode;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class PaymentRequest {
-    private String orderId;
+    private long orderId;
     private long amount;
     private String referenceNumber;
     private PaymentMode paymentMode;

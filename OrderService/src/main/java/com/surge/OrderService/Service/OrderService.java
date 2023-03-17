@@ -5,4 +5,5 @@ import com.surge.OrderService.Dto.OrderResponse;
 
 public interface OrderService {
     OrderResponse placeOrder(OrderRequest orderRequest);
+    OrderResponse getOrder(long id);
 }
