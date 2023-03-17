@@ -12,6 +12,19 @@ spring:
     name: PRODUCT-SERVICE
   config:
     import: configserver:http://localhost:9296
+logging:
+  level:
+    org:
+      springframework:
+        web:
+          servlet:
+            DispatcherServlet: DEBUG
+  pattern:
+    level: "%5p [${spring.application.name:},%X{traceId:-},%X{spanId:-}]"
+management:
+  tracing:
+    sampling:
+      probability: 1.0
 
 #eureka:
 #  instance:
