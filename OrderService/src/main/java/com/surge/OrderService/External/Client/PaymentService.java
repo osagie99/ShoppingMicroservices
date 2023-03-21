@@ -2,6 +2,8 @@ package com.surge.OrderService.External.Client;
 
 import com.surge.OrderService.Dto.PaymentRequest;
 import com.surge.OrderService.Dto.PaymentResponse;
+import com.surge.OrderService.Exception.CustomException;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,9 +12,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @FeignClient(name = "PAYMENT-SERVICE/payment")
+@CircuitBreaker(name = "external", fallbackMethod = "fallback")
 public interface PaymentService {
+
+    default void fallback(Throwable t) {
+        throw new RuntimeException("Unavilable servoced");
+    }
     @PostMapping("/make-payment")
     ResponseEntity<PaymentResponse> makePayment(@RequestBody PaymentRequest paymentRequest);
     @GetMapping("/get-payment/{orderId}")
     ResponseEntity<PaymentResponse> getPayment(@PathVariable long orderId);
+
+
 }
