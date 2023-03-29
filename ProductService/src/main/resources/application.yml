@@ -12,11 +12,7 @@ spring:
     name: PRODUCT-SERVICE
   config:
     import: configserver:http://localhost:9296
-  security:
-    oauth2:
-      resourceserver:
-        jwt:
-          issuer-uri: https://dev-23720267.okta.com/oauth2/default
+
 logging:
   level:
     org:
