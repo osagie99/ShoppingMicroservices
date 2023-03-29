@@ -6,13 +6,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@Builder
-@AllArgsConstructor
 @NoArgsConstructor
-public class ProductResponse {
-    private String productId;
-    private String productName;
-    private long price;
-    private long quantity;
+@AllArgsConstructor
+@Builder
+public class BaseResponse<T> {
+    private String status;
 
+    private String message;
+
+    private T data;
 }

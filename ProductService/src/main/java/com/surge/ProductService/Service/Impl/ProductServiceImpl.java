@@ -1,4 +1,5 @@
 package com.surge.ProductService.Service.Impl;
+import com.surge.ProductService.DTO.BaseResponse;
 import com.surge.ProductService.DTO.ProductRequest;
 import com.surge.ProductService.DTO.ProductResponse;
 import com.surge.ProductService.Entity.ProductEntity;
@@ -20,7 +21,7 @@ public class ProductServiceImpl implements ProductService {
     private ProductRepository productRepository;
 
     @Override
-        public String addProduct(ProductRequest productRequest) {
+        public BaseResponse addProduct(ProductRequest productRequest) {
         log.info("====== PRODUCT CONTROLLER ======");
         log.info("====== CREATING PRODUCT ======");
         ProductEntity product = ProductEntity.builder()
@@ -30,25 +31,35 @@ public class ProductServiceImpl implements ProductService {
                 .build();
         log.info("====== PRODUCT CREATED SUCCESSFULLY ======");
         productRepository.save(product);
-        return product.getProductId();
+        return BaseResponse.builder()
+                .status("SUCCESSFUL")
+                .message("SAVED_SUCCESSFULLY")
+                .data(product.getProductId())
+                .build();
     }
 
     @Override
-    public ProductResponse getProduct(String id) {
+    public BaseResponse getProduct(String id) {
         log.info("====== PRODUCT CONTROLLER ======");
         log.info("====== GET PRODUCT ======");
         ProductEntity product = productRepository.findById(id).orElseThrow(() -> new ProductNotFoundException("Product Does not exist"));
         log.info("====== PRODUCT GOTTEN SUCCESSFULLY ======");
-        return ProductResponse.builder()
+        ProductResponse response = ProductResponse.builder()
                 .productName(product.getProductName())
                 .quantity(product.getQuantity())
                 .price(product.getPrice())
+                .productId(product.getProductId())
+                .build();
+        return BaseResponse.builder()
+                .status("SUCCESSFUL")
+                .message("PRODUCT_GOTTEN_SUCCESSFULLY")
+                .data(response)
                 .build();
     }
 
     @Override
     public void reduceQuantity(String productId, long quantity) {
-        ProductResponse getProduct = getProduct(productId);
+        ProductEntity getProduct = productRepository.findById(productId).orElseThrow(() -> new ProductNotFoundException("Product Does not exist"));
         if(getProduct == null) {
             throw new ProductNotFoundException("Product Does not exist");
         }

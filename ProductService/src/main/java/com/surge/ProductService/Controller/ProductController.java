@@ -1,5 +1,6 @@
 package com.surge.ProductService.Controller;
 
+import com.surge.ProductService.DTO.BaseResponse;
 import com.surge.ProductService.DTO.ProductRequest;
 import com.surge.ProductService.DTO.ProductResponse;
 import com.surge.ProductService.Service.ProductService;
@@ -15,13 +16,13 @@ public class ProductController {
     @Autowired
     private ProductService productService;
     @PostMapping
-    public ResponseEntity<String> addProduct(@RequestBody ProductRequest productRequest) {
-        String productId = productService.addProduct(productRequest);
+    public ResponseEntity<BaseResponse> addProduct(@RequestBody ProductRequest productRequest) {
+        BaseResponse productId = productService.addProduct(productRequest);
         return new ResponseEntity<>(productId, HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
-    public ProductResponse getProduct(@PathVariable String id) {
+    public BaseResponse<ProductResponse> getProduct(@PathVariable String id) {
         return productService.getProduct(id);
     }
     @PutMapping("/reduceQuantity/{id}")
