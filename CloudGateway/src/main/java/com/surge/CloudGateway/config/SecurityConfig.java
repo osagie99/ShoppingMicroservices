@@ -26,20 +26,13 @@ public class SecurityConfig {
 
     @Autowired
     private Security security;
-//    @Bean
-//    public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) throws Exception {
-//
-//        http
-//                .csrf().disable()
-//                .authorizeExchange()
-//                .pathMatchers("/authenticate/**")
-//                .permitAll()
-//                .anyExchange()
-//                .authenticated()
-//                .and()
-//                .addFilterBefore(, SecurityWebFiltersOrder.REACTOR_CONTEXT);
-//        return http.build();
-//    }
+    @Bean
+    public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) throws Exception {
+        http
+                .csrf()
+                .disable();
+        return http.build();
+    }
 
 
 }
