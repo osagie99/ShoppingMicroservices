@@ -1,4 +1,4 @@
-package com.surge.OrderService.Dto;
+package com.surge.AuthenticationService.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

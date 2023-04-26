@@ -7,6 +7,8 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.Arrays;
+
 @SpringBootApplication
 @EnableFeignClients
 public class OrderServiceApplication {
@@ -19,5 +21,7 @@ public class OrderServiceApplication {
 	RestTemplate restTemplate() {
 		return new RestTemplate();
 	}
+
+
 
 }

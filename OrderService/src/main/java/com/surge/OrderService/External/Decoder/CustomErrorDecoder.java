@@ -2,9 +2,11 @@ package com.surge.OrderService.External.Decoder;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.surge.OrderService.Exception.CustomException;
+import com.surge.OrderService.Exception.ServiceUnavailable;
 import com.surge.OrderService.External.Response.ErrorMessage;
 import feign.Response;
 import feign.codec.ErrorDecoder;
+import jakarta.ws.rs.BadRequestException;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
@@ -14,16 +16,11 @@ public class CustomErrorDecoder implements ErrorDecoder {
 
     @Override
     public Exception decode(String s, Response response) {
-        ObjectMapper objectMapper = new ObjectMapper();
-
-        log.info("::{}", response.request().url());
-        log.info("::{}", response.request().headers());
-
-        try {
-            ErrorMessage errorMessage = objectMapper.readValue(response.body().asInputStream(), ErrorMessage.class);
-            return new CustomException(errorMessage.getMessage(), errorMessage.getMessage(), response.status());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        return switch (response.status()) {
+            case 500 -> new CustomException("UNAVAILBLE", "UNAVAILBLE", 500);
+            case 400 -> new BadRequestException("Bad request");
+            case 503 -> throw new ServiceUnavailable();
+            default -> new Exception("Unavailable");
+        };
     }
 }

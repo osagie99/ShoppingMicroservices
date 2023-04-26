@@ -1,2 +1,5 @@
-package com.surge.AuthenticationService.entity;public class TokenType {
+package com.surge.AuthenticationService.enums;
+
+public enum TokenType {
+    BEARER, JWT
 }

@@ -1,5 +1,6 @@
 package com.surge.AuthenticationService.config;
 
+import com.surge.AuthenticationService.Repository.JWTTokenRepository;
 import com.surge.AuthenticationService.entity.User;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -21,6 +22,7 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final JwtService jwtService;
+    private final JWTTokenRepository jwtTokenRepository;
 
     private final UserDetailsService userDetailsService;
     @Override
@@ -44,7 +46,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         if(username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
-            if(jwtService.isTokenValid(jwt, userDetails)) {
+            var tokenIsValid = jwtTokenRepository.findByToken(jwt).map(t -> !t.isExpired() && !t.isRevoked()).orElse(false);
+            if(jwtService.isTokenValid(jwt, userDetails) && tokenIsValid) {
                 UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
                         userDetails,
                         null,

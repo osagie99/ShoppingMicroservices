@@ -1,0 +1,16 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: ORDER-SERVICE
+  datasource:
+    url: jdbc:h2:mem:order
+    username: root
+    password:
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+  config:
+    import: optional:configserver:http://localhost:9296

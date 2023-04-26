@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProductResponse {
+    private String productId;
     private String productName;
     private long price;
     private long quantity;

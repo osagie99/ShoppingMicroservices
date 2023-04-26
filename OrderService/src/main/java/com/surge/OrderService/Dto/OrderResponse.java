@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.http.ResponseEntity;
 
 import java.time.Instant;
 
@@ -13,6 +14,7 @@ import java.time.Instant;
 @AllArgsConstructor
 @Builder
 public class OrderResponse {
+    private long id;
     private long quantity;
     private long totalAmount;
     private PaymentMode paymentMode;

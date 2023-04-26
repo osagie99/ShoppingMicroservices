@@ -1,0 +1,50 @@
+version: '3'
+# Compose for service
+services:
+  service-registry:
+    image: 'osagie9/service-registry:0.0.1'
+    container_name: service-registry
+    networks:
+      - localhost-network
+    ports:
+      - '8761:8761'
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://service-registry:8761/actuator/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  config-server:
+    image: 'osagie9/config-server:latest'
+    container_name: config-server
+    networks:
+      - localhost-network
+    ports:
+      - '9296:9296'
+    depends_on:
+      - service-registry
+    environment:
+      - EUREKA_SERVER_ADDRESS=http://service-registry:8761/eureka
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://config-server:9296/actuator/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  cloud-gateway:
+    image: 'osagie9/cloud-gateway:latest'
+    container_name: cloud-gateway
+    networks:
+      - localhost-network
+    ports:
+      - '9090:9090'
+    depends_on:
+      config-server:
+        condition: service_healthy
+    environment:
+      - CONFIG_SERVER_URL=http://config-server:9296
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://service-registry:8761/eureka
+# Link external network created outside compose to services
+networks:
+  localhost-network:
+    external: true

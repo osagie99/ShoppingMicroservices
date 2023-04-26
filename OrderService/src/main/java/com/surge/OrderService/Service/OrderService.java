@@ -1,9 +1,10 @@
 package com.surge.OrderService.Service;
 
+import com.surge.OrderService.Dto.BaseResponse;
 import com.surge.OrderService.Dto.OrderRequest;
 import com.surge.OrderService.Dto.OrderResponse;
 
 public interface OrderService {
-    OrderResponse placeOrder(OrderRequest orderRequest);
-    OrderResponse getOrder(long id);
+    BaseResponse placeOrder(OrderRequest orderRequest);
+    BaseResponse getOrder(long id);
 }

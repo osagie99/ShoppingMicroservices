@@ -1,2 +1,13 @@
-package com.surge.AuthenticationService.Repository;public interface UserRepository {
+package com.surge.AuthenticationService.Repository;
+
+import com.surge.AuthenticationService.entity.User;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import java.util.Optional;
+
+@Repository
+public interface UserRepository extends JpaRepository<User, Long> {
+
+    Optional<User> findByEmail(String email);
 }
