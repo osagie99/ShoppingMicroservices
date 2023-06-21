@@ -1,0 +1,11 @@
+# https://kubernetes.io/docs/concepts/services-networking/service/
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-registry-svc
+spec:
+  selector:
+    app: service-registry
+  ports:
+    - port: 80
+      targetPort: 8761
